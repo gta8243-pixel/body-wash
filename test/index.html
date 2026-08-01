@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>수경이가 선택한 아기 바디워시, 내 아기에게 맞는 바디워시는?</title>
+<meta name="description" content="수경이가 선택한 아기 바디워시 — 5개의 질문으로 우리 아기 피부에 맞는 바디워시 타입을 찾아보세요" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@400;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
+<style>
+  :root{
+    --ink:#10242b;
+    --ink-soft:#5b7079;
+    --paper:#e9f1f2;
+    --card:#ffffff;
+    --line:#dde7e9;
+    --brand:#145e63;
+    --brand-deep:#0d4448;
+    --water:rgba(127,200,207,.22);
+
+    --a:#2e6e8e; --a-soft:#dceaf2;
+    --b:#a9762f; --b-soft:#f6e8d3;
+    --c:#6a5aa6; --c-soft:#e7e1f6;
+
+    --accent:var(--brand);
+    --accent-soft:#d7e9ea;
+
+    --sans:"Pretendard","Pretendard Variable",system-ui,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+    --serif:"Hahmlet",var(--sans),serif;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--sans);
+    font-size:16px;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+    padding:28px 18px 56px;
+    display:flex;
+    justify-content:center;
+  }
+
+  .shell{width:100%;max-width:620px;}
+
+  .brandline{
+    display:flex;align-items:center;gap:10px;
+    font-size:12px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--ink-soft);margin-bottom:14px;padding-left:4px;
+  }
+  .brandline .dot{width:7px;height:7px;border-radius:50%;background:var(--brand);}
+
+  /* ── 카드 : 물이 차오르는 시그니처 ─────────────────── */
+  .card{
+    position:relative;overflow:hidden;
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:26px;
+    padding:34px 30px 30px;
+    box-shadow:0 18px 40px -28px rgba(16,36,43,.45);
+  }
+  .water{
+    position:absolute;left:0;right:0;bottom:0;
+    height:0%;background:var(--water);
+    transition:height .55s cubic-bezier(.4,0,.2,1);
+    pointer-events:none;
+  }
+  .water svg{
+    position:absolute;top:-13px;left:0;width:200%;height:14px;
+    animation:drift 9s linear infinite;
+  }
+  .water path{fill:var(--water);}
+  @keyframes drift{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+  .layer{position:relative;z-index:1;}
+
+  /* ── 타이포 ────────────────────────────────────── */
+  h1{
+    font-family:var(--serif);font-weight:600;
+    font-size:clamp(28px,7vw,38px);line-height:1.28;
+    letter-spacing:-.02em;margin:0 0 12px;
+  }
+  h2{
+    font-family:var(--serif);font-weight:600;
+    font-size:clamp(21px,5vw,25px);line-height:1.45;
+    letter-spacing:-.015em;margin:0 0 22px;
+  }
+  .lede{color:var(--ink-soft);margin:0 0 26px;font-size:15px;}
+  .kicker{
+    font-size:14px;font-weight:600;color:var(--brand);
+    letter-spacing:-.01em;margin-bottom:12px;
+  }
+  .eyebrow{
+    font-size:12px;letter-spacing:.14em;color:var(--accent);
+    font-weight:600;margin-bottom:10px;
+  }
+
+  /* ── 진행 표시 ─────────────────────────────────── */
+  .meter{display:flex;align-items:center;gap:12px;margin-bottom:20px;}
+  .meter .track{flex:1;height:6px;border-radius:99px;background:var(--line);overflow:hidden;}
+  .meter .fill{height:100%;width:0%;border-radius:99px;background:var(--brand);transition:width .45s ease;}
+  .meter .count{font-size:12px;color:var(--ink-soft);letter-spacing:.06em;font-variant-numeric:tabular-nums;}
+
+  /* ── 선택지 ────────────────────────────────────── */
+  .options{display:flex;flex-direction:column;gap:10px;}
+  .opt{
+    width:100%;text-align:left;cursor:pointer;
+    background:#fff;border:1px solid var(--line);border-radius:16px;
+    padding:16px 18px;font-family:inherit;font-size:15.5px;color:var(--ink);
+    line-height:1.5;transition:border-color .18s,background .18s,transform .18s;
+  }
+  .opt:hover{border-color:var(--brand);background:#f6fbfb;transform:translateY(-1px);}
+  .opt:focus-visible{outline:2.5px solid var(--brand);outline-offset:2px;}
+  .opt .sub{display:block;font-size:13px;color:var(--ink-soft);margin-top:3px;}
+
+  /* ── 버튼 ──────────────────────────────────────── */
+  .btn{
+    font-family:inherit;font-size:15px;font-weight:600;cursor:pointer;
+    border-radius:14px;padding:14px 24px;border:1px solid transparent;
+    transition:background .18s,color .18s,border-color .18s;
+  }
+  .btn.primary{background:var(--brand);color:#fff;}
+  .btn.primary:hover{background:var(--brand-deep);}
+  .btn.ghost{background:transparent;color:var(--ink-soft);border-color:var(--line);}
+  .btn.ghost:hover{border-color:var(--ink-soft);color:var(--ink);}
+  .btn:focus-visible{outline:2.5px solid var(--brand);outline-offset:2px;}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px;}
+
+  .back{
+    background:none;border:0;padding:6px 0;margin-bottom:14px;cursor:pointer;
+    font-family:inherit;font-size:13px;color:var(--ink-soft);
+  }
+  .back:hover{color:var(--ink);}
+  .back:focus-visible{outline:2.5px solid var(--brand);outline-offset:2px;border-radius:6px;}
+
+  /* ── 결과 ──────────────────────────────────────── */
+  .badge{
+    display:inline-block;background:var(--accent-soft);color:var(--accent);
+    font-size:12.5px;font-weight:600;letter-spacing:.04em;
+    padding:6px 13px;border-radius:99px;margin-bottom:14px;
+  }
+  .tagline{font-size:15px;color:var(--ink-soft);margin:0 0 24px;}
+  .block{border-top:1px solid var(--line);padding-top:20px;margin-top:22px;}
+  .block h3{
+    font-size:12px;letter-spacing:.13em;color:var(--ink-soft);
+    font-weight:600;margin:0 0 12px;text-transform:uppercase;
+  }
+  .reasons{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px;}
+  .reasons li{display:flex;gap:10px;font-size:15px;}
+  .reasons li::before{content:"—";color:var(--accent);flex:none;}
+  .checks{display:flex;flex-wrap:wrap;gap:8px;}
+  .chip{
+    background:var(--accent-soft);color:var(--accent);
+    border-radius:10px;padding:8px 12px;font-size:13.5px;font-weight:600;
+  }
+  .tip{background:#f4f8f8;border-radius:14px;padding:16px 18px;font-size:14.5px;color:var(--ink);}
+
+  .bars{display:flex;flex-direction:column;gap:11px;}
+  .bar{display:grid;grid-template-columns:104px 1fr 38px;align-items:center;gap:10px;font-size:13px;}
+  .bar .t{height:8px;border-radius:99px;background:var(--line);overflow:hidden;}
+  .bar .f{height:100%;border-radius:99px;}
+  .bar .n{text-align:right;color:var(--ink-soft);font-variant-numeric:tabular-nums;}
+  .bar .name{color:var(--ink-soft);}
+  .bar.win .name{color:var(--ink);font-weight:600;}
+
+  /* ── 추천 제품 카드 ─────────────────────────────── */
+  .subhead{
+    font-size:13.5px;font-weight:600;margin:0 0 10px;
+    display:flex;align-items:center;gap:7px;
+  }
+  .subhead .mark{color:var(--accent);}
+  .subhead .kind{color:var(--ink-soft);font-weight:400;}
+  .products{display:grid;grid-template-columns:repeat(auto-fill,minmax(128px,1fr));gap:11px;}
+  .products + .subhead{margin-top:20px;}
+  .pcard{
+    display:block;text-decoration:none;color:inherit;background:#fff;
+    border:1px solid var(--line);border-radius:16px;padding:11px;
+    transition:border-color .18s,transform .18s,box-shadow .18s;
+  }
+  .pcard:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 10px 22px -16px rgba(16,36,43,.5);}
+  .pcard:focus-visible{outline:2.5px solid var(--accent);outline-offset:2px;}
+  .pcard .thumb{
+    aspect-ratio:1/1;border-radius:11px;background:#f5f9f9;overflow:hidden;
+    display:flex;align-items:center;justify-content:center;margin-bottom:9px;
+  }
+  .pcard .thumb svg{width:78%;height:88%;}
+  .pcard .thumb img{width:100%;height:100%;object-fit:cover;}
+  .pcard .pname{font-size:14.5px;font-weight:600;line-height:1.35;}
+  .pcard .ptags{font-size:12px;color:var(--ink-soft);margin-top:3px;}
+
+  .note{font-size:12.5px;color:var(--ink-soft);margin-top:24px;line-height:1.6;}
+  .toast{font-size:13px;color:var(--brand);margin-top:10px;min-height:18px;}
+
+  @media (max-width:420px){
+    .card{padding:28px 20px 24px;border-radius:22px;}
+    .bar{grid-template-columns:84px 1fr 34px;}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important;}
+  }
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="brandline"><span class="dot"></span><span>Baby Bath Test</span></div>
+  <main class="card" id="card">
+    <div class="water" id="water" aria-hidden="true">
+      <svg viewBox="0 0 200 14" preserveAspectRatio="none"><path d="M0 8 Q 12.5 0 25 8 T 50 8 T 75 8 T 100 8 T 125 8 T 150 8 T 175 8 T 200 8 V14 H0 Z"/></svg>
+    </div>
+    <div class="layer" id="view" aria-live="polite"></div>
+  </main>
+</div>
+
+<script>
+/* ────────────────────────────────────────────────
+   1. 질문 데이터
+   weight: 피부 상태 문항은 판단 근거가 가장 확실하므로 2배 가중
+   scores: 선택지 하나가 각 타입에 주는 점수
+   reason: 결과 화면에서 "추천 이유"로 다시 쓰이는 근거 문구
+──────────────────────────────────────────────── */
+const QUESTIONS = [
+  {
+    weight: 2,
+    q: "목욕을 끝내고 나면, 아기 피부는 보통 어떤가요?",
+    hint: "가장 중요한 문항이에요",
+    options: [
+      { label:"군데군데 붉어지고 자꾸 긁어요", sub:"자극에 반응이 잦은 편",
+        scores:{A:2,B:1,C:0}, reason:"목욕 후 붉어지고 긁는 반응이 있음" },
+      { label:"하얗게 각질이 일고 당겨 보여요", sub:"수분이 금방 날아가는 편",
+        scores:{A:1,B:2,C:0}, reason:"각질과 당김이 남는 건조한 피부" },
+      { label:"별다른 변화 없이 보송해요", sub:"트러블이 거의 없는 편",
+        scores:{A:0,B:0,C:2}, reason:"트러블 없이 비교적 튼튼한 피부" }
+    ]
+  },
+  {
+    weight: 1,
+    q: "목욕 시간, 아기는 어떤 편인가요?",
+    options: [
+      { label:"빨리 끝낼수록 좋아해요", sub:"오래 있으면 칭얼거려요",
+        scores:{A:2,B:1,C:0}, reason:"짧고 빠른 목욕을 선호함" },
+      { label:"따뜻한 물에 몸 담그는 걸 좋아해요", sub:"느긋하게 온욕하는 편",
+        scores:{A:0,B:2,C:1}, reason:"온욕을 즐기는 편" },
+      { label:"거품이랑 물장난하느라 안 나와요", sub:"목욕이 곧 놀이 시간",
+        scores:{A:0,B:0,C:2}, reason:"거품 놀이를 좋아함" }
+    ]
+  },
+  {
+    weight: 1,
+    q: "제품을 고를 때 가장 먼저 확인하는 건 무엇인가요?",
+    options: [
+      { label:"향료·색소 무첨가인지", sub:"성분표부터 확인",
+        scores:{A:2,B:1,C:0}, reason:"무향·무첨가를 우선으로 확인" },
+      { label:"세라마이드·판테놀 같은 보습 성분", sub:"씻으면서도 보습되길 바람",
+        scores:{A:1,B:2,C:0}, reason:"보습 성분을 우선으로 확인" },
+      { label:"거품이 잘 나고 눈이 안 시린지", sub:"쓰기 편한 사용감이 중요",
+        scores:{A:0,B:0,C:2}, reason:"거품감과 눈 시림 없는 사용감을 중시" }
+    ]
+  },
+  {
+    weight: 1,
+    q: "요즘 계절과 집 안 환경은 어떤가요?",
+    options: [
+      { label:"환절기라 피부가 유난히 예민해요", sub:"평소보다 반응이 잦음",
+        scores:{A:2,B:1,C:0}, reason:"환절기라 피부가 예민한 시기" },
+      { label:"난방·에어컨 때문에 건조해요", sub:"실내 습도가 낮음",
+        scores:{A:1,B:2,C:0}, reason:"난방·에어컨으로 건조한 실내 환경" },
+      { label:"땀이 많고 밖에서 많이 놀아요", sub:"활동량이 많은 편",
+        scores:{A:1,B:0,C:2}, reason:"땀과 활동량이 많은 생활 패턴" }
+    ]
+  },
+  {
+    weight: 1,
+    q: "목욕이 끝난 뒤 루틴은 어떤가요?",
+    options: [
+      { label:"자극 없이, 최소한으로 빠르게", sub:"단계는 적을수록 좋음",
+        scores:{A:2,B:0,C:1}, reason:"자극을 줄인 간단한 목욕 후 루틴" },
+      { label:"로션·크림까지 꼼꼼히 발라줘요", sub:"보습에 공을 들이는 편",
+        scores:{A:0,B:2,C:0}, reason:"보습까지 꼼꼼히 챙기는 루틴" },
+      { label:"향기랑 노래로 기분 좋게 마무리", sub:"분위기까지 챙기는 편",
+        scores:{A:0,B:1,C:2}, reason:"향과 분위기로 마무리하는 루틴" }
+    ]
+  }
+];
+
+/* ────────────────────────────────────────────────
+   2. 결과 데이터
+──────────────────────────────────────────────── */
+const RESULTS = {
+  A: {
+    key:"A", color:"var(--a)", soft:"var(--a-soft)",
+    badge:"저자극 · 무향",
+    title:"맑은 물 타입",
+    tagline:"더 넣는 것보다, 덜어내는 쪽이 잘 맞는 피부예요.",
+    desc:"자극 요소에 반응이 빠른 편이라 향료·색소·기능성 첨가물이 많은 제품보다 성분 수가 단순한 약산성 워시가 안정적이에요. 세정력이 강한 제품은 피부가 원래 갖고 있던 보호막까지 씻어내기 때문에, 순한 세정 성분인지부터 확인해 보세요.",
+    checks:["약산성 pH 5.0~5.5","무향료 · 무색소","성분 수가 적은 단순 포뮬러"],
+    tip:"거품은 손에서 먼저 낸 뒤 손바닥으로 부드럽게 굴리듯 씻기고, 미온수로 30초 안에 헹궈주세요. 문지르는 시간이 길어질수록 자극도 함께 쌓입니다."
+  },
+  B: {
+    key:"B", color:"var(--b)", soft:"var(--b-soft)",
+    badge:"보습 · 크림 제형",
+    title:"크리미 보습 타입",
+    tagline:"씻는 동안에도 보습막을 남겨두는 게 관건이에요.",
+    desc:"수분이 금방 날아가는 피부라 '깨끗하게 씻기'보다 '씻으면서 덜 뺏기기'가 목표예요. 투명한 젤 타입보다 크림·밀크 제형이 헹군 뒤 당김이 덜하고, 세라마이드나 판테놀이 들어간 워시는 목욕 후 보습 단계의 부담을 줄여줍니다.",
+    checks:["세라마이드 · 판테놀 함유","크림 또는 밀크 제형","워시 겸 보습 2-in-1"],
+    tip:"목욕 후 3분 안이 승부처예요. 수건으로 문지르지 말고 톡톡 눌러 물기만 걷어낸 뒤, 피부가 살짝 촉촉할 때 바로 로션을 발라주세요."
+  },
+  C: {
+    key:"C", color:"var(--c)", soft:"var(--c-soft)",
+    badge:"거품 · 순한 사용감",
+    title:"버블 타임 타입",
+    tagline:"목욕이 놀이로 이어지는 아이에게 맞는 구성이에요.",
+    desc:"피부가 비교적 튼튼하고 목욕 자체를 즐기는 편이라, 아이가 스스로 씻고 싶어지게 만드는 사용감이 실제로 도움이 돼요. 다만 즐거움이 자극이 되지 않도록 눈 시림이 적은 저자극 세정 성분인지, 향이 은은한 수준인지는 확인해 주세요.",
+    checks:["펌핑 거품 타입","눈 시림 적은 저자극 세정","은은한 자연 유래 향"],
+    tip:"거품 놀이는 5~10분 안쪽으로 끊고, 마지막엔 깨끗한 물로 한 번 더 헹궈주세요. 거품이 피부에 남아 있는 시간이 길수록 건조해지기 쉬워요."
+  }
+};
+
+/* ────────────────────────────────────────────────
+   3. 제품 카탈로그
+
+   ▸ 실제 제품 사진을 넣으려면 아래 PHOTOS에 경로만 적으면 됩니다.
+     이 HTML 파일 옆에 images 폴더를 만들고 사진을 넣은 뒤,
+     주석(//)을 지우고 파일명을 맞춰주세요.
+     사진이 없는 제품은 자동으로 용기 일러스트가 들어갑니다.
+──────────────────────────────────────────────── */
+const PHOTOS = {
+  // "아토앤오투": "./images/atoando2.jpg",
+  // "오가본":     "./images/orgabon.jpg",
+  // "맘뜨레":     "./images/momtre.jpg",
+  // "말랑하니":   "./images/mallanghani.jpg",
+  // "궁중비책":   "./images/goongjung.jpg",
+  // "닥터바이오": "./images/drbio.jpg",
+  // "아토팜":     "./images/atopalm.jpg",
+  // "퓨어솜":     "./images/puresom.jpg",
+  // "페르바도":   "./images/pervado.jpg",
+  // "더하루":     "./images/theharu.jpg",
+  // "쁘리마쥬":   "./images/primage.jpg",
+  // "벨레다":     "./images/weleda.jpg"
+};
+
+/* form  : 폼 / 젤 / 밀크
+   cap   : 펌프 / 플립 / 스크류 / 디스크
+   body  : 슬림 / 와이드 / 오벌 / 스퀘어 / 테이퍼 / 튜브 / 원통
+   label : 밴드 / 원형 / 사선 / 없음
+   url   : 비워두면 네이버쇼핑 검색 링크가 자동 생성됨. 제휴 링크는 여기에. */
+const PRODUCTS = [
+  { name:"아토앤오투", form:"폼",  scent:"무향",      hue:198, cap:"펌프",   body:"슬림",  label:"밴드", url:"" },
+  { name:"오가본",     form:"폼",  scent:"은은한 향", hue:126, cap:"펌프",   body:"와이드",label:"원형", url:"" },
+  { name:"맘뜨레",     form:"폼",  scent:"무향",      hue:170, cap:"펌프",   body:"스퀘어",label:"사선", url:"" },
+  { name:"말랑하니",   form:"폼",  scent:"무향",      hue:216, cap:"펌프",   body:"오벌",  label:"원형", url:"" },
+  { name:"궁중비책",   form:"젤",  scent:"은은한 향", hue:34,  cap:"스크류", body:"슬림",  label:"밴드", url:"" },
+  { name:"닥터바이오", form:"젤",  scent:"무향",      hue:206, cap:"플립",   body:"원통",  label:"밴드", url:"" },
+  { name:"아토팜",     form:"젤",  scent:"무향",      hue:186, cap:"플립",   body:"테이퍼",label:"사선", url:"" },
+  { name:"퓨어솜",     form:"젤",  scent:"무향",      hue:158, cap:"스크류", body:"튜브",  label:"밴드", url:"" },
+  { name:"페르바도",   form:"젤",  scent:"은은한 향", hue:282, cap:"디스크", body:"와이드",label:"원형", url:"" },
+  { name:"더하루",     form:"젤",  scent:"무향",      hue:146, cap:"플립",   body:"튜브",  label:"사선", url:"" },
+  { name:"쁘리마쥬",   form:"밀크",scent:"은은한 향", hue:20,  cap:"디스크", body:"오벌",  label:"밴드", url:"" },
+  { name:"벨레다",     form:"밀크",scent:"은은한 향", hue:46,  cap:"스크류", body:"테이퍼",label:"원형", url:"" }
+];
+
+/* 결과 유형별 매칭 규칙 — 조건식만 바꾸면 추천 목록이 바뀜 */
+const PICKS = {
+  A: [
+    { label:"먼저 볼 것",   kind:"무향 · 폼 제형", filter:p => p.form === "폼"  && p.scent === "무향" },
+    { label:"꼼꼼히 씻길 때", kind:"무향 · 젤 제형", filter:p => p.form === "젤"  && p.scent === "무향" }
+  ],
+  B: [
+    { label:"먼저 볼 것",   kind:"밀크 제형",      filter:p => p.form === "밀크" },
+    { label:"매일 쓸 세정제", kind:"무향 · 젤 제형", filter:p => p.form === "젤"  && p.scent === "무향" }
+  ],
+  C: [
+    { label:"먼저 볼 것",   kind:"폼 제형",        filter:p => p.form === "폼",
+      sort:(a,b) => (b.scent === "은은한 향") - (a.scent === "은은한 향") },
+    { label:"향까지 챙긴다면", kind:"은은한 향 · 젤 제형", filter:p => p.form === "젤" && p.scent === "은은한 향" }
+  ]
+};
+
+function productLink(p){
+  return p.url ||
+    "https://search.shopping.naver.com/search/all?query=" +
+    encodeURIComponent(p.name + " 아기 바디워시");
+}
+
+/* 제품별 용기 일러스트 — 사진이 들어오기 전까지 쓰는 자리표시.
+   뚜껑 · 몸통 · 라벨 · 색을 제품마다 다르게 조합해 한눈에 구분되게 함. */
+function bottleSVG(p){
+  const base = `hsl(${p.hue} 52% 91%)`;
+  const mid  = `hsl(${p.hue} 40% 70%)`;
+  const line = `hsl(${p.hue} 42% 38%)`;
+  const S = 2.1;
+
+  const caps = {
+    "펌프": `<rect x="22" y="14" width="20" height="6" rx="3" fill="${mid}"/>
+             <rect x="38" y="8"  width="11" height="14" rx="4" fill="${mid}"/>
+             <rect x="38" y="21" width="11" height="10" fill="${mid}"/>
+             <rect x="33" y="28" width="21" height="7" rx="3" fill="${line}" opacity=".55"/>`,
+    "플립": `<rect x="32" y="14" width="26" height="13" rx="5" fill="${mid}"/>
+             <rect x="42" y="10" width="6"  height="7"  rx="2" fill="${line}" opacity=".5"/>
+             <rect x="34" y="27" width="22" height="6"  rx="2" fill="${line}" opacity=".35"/>`,
+    "스크류":`<rect x="34" y="12" width="22" height="16" rx="3" fill="${mid}"/>
+             <path d="M38 15 V25 M45 15 V25 M52 15 V25" stroke="${line}" stroke-width="1.4" opacity=".45"/>
+             <rect x="36" y="28" width="18" height="6" rx="2" fill="${line}" opacity=".3"/>`,
+    "디스크":`<rect x="26" y="15" width="38" height="10" rx="5" fill="${mid}"/>
+             <rect x="38" y="25" width="14" height="9"  fill="${mid}"/>`
+  };
+
+  const bodies = {
+    "슬림":  `<rect x="30" y="34" width="30" height="78" rx="9" fill="${base}" stroke="${line}" stroke-width="${S}"/>`,
+    "와이드":`<rect x="16" y="38" width="58" height="74" rx="16" fill="${base}" stroke="${line}" stroke-width="${S}"/>`,
+    "오벌":  `<rect x="20" y="34" width="50" height="78" rx="25" fill="${base}" stroke="${line}" stroke-width="${S}"/>`,
+    "스퀘어":`<rect x="22" y="34" width="46" height="78" rx="5" fill="${base}" stroke="${line}" stroke-width="${S}"/>`,
+    "테이퍼":`<path d="M32 34 H58 L66 104 Q67 112 59 112 H31 Q23 112 24 104 Z" fill="${base}" stroke="${line}" stroke-width="${S}" stroke-linejoin="round"/>`,
+    "튜브":  `<path d="M28 34 H62 L66 106 Q66 112 60 112 H30 Q24 112 24 106 Z" fill="${base}" stroke="${line}" stroke-width="${S}" stroke-linejoin="round"/>
+              <path d="M27 106 H63" stroke="${line}" stroke-width="1.6" opacity=".45"/>`,
+    "원통":  `<rect x="27" y="34" width="36" height="78" rx="4" fill="${base}" stroke="${line}" stroke-width="${S}"/>
+              <path d="M27 42 H63" stroke="${line}" stroke-width="1.3" opacity=".35"/>`
+  };
+
+  const labels = {
+    "밴드": `<rect x="26" y="60" width="38" height="30" rx="4" fill="#fff" opacity=".92"/>`,
+    "원형": `<circle cx="45" cy="75" r="18" fill="#fff" opacity=".92"/>`,
+    "사선": `<path d="M25 66 L65 58 L65 84 L25 92 Z" fill="#fff" opacity=".92"/>`,
+    "없음": ``
+  };
+
+  return `<svg viewBox="0 0 90 122" xmlns="http://www.w3.org/2000/svg" role="img"
+      aria-label="${p.name} ${p.form} 제형 용기 그림">
+      ${caps[p.cap]}
+      ${bodies[p.body]}
+      ${labels[p.label]}
+      <text x="45" y="78" text-anchor="middle" fill="${line}"
+        font-size="9" font-weight="700" textLength="32" lengthAdjust="spacingAndGlyphs"
+        font-family="Pretendard, sans-serif">${p.name}</text>
+    </svg>`;
+}
+
+function productCard(p){
+  const photo = PHOTOS[p.name] || p.img;
+  const thumb = photo
+    ? `<img src="${photo}" alt="${p.name} 아기 바디워시 제품 사진" loading="lazy">`
+    : bottleSVG(p);
+  return `<a class="pcard" href="${productLink(p)}" target="_blank" rel="noopener noreferrer">
+      <span class="thumb">${thumb}</span>
+      <span class="pname">${p.name}</span>
+      <span class="ptags">${p.form} · ${p.scent}</span>
+    </a>`;
+}
+
+function productSection(typeKey){
+  return PICKS[typeKey].map(g => {
+    let list = PRODUCTS.filter(g.filter);
+    if (g.sort) list = list.slice().sort(g.sort);
+    if (!list.length) return "";
+    return `<p class="subhead"><span class="mark">☑</span>${g.label}
+              <span class="kind">${g.kind}</span></p>
+            <div class="products">${list.map(productCard).join("")}</div>`;
+  }).join("");
+}
+
+/* ────────────────────────────────────────────────
+   4. 상태 & 채점 로직
+──────────────────────────────────────────────── */
+let step = -1;              // -1 = 시작 화면, 0~4 = 질문, 5 = 결과
+let answers = [];           // answers[i] = 선택지 index
+
+const view  = document.getElementById("view");
+const water = document.getElementById("water");
+
+function tally(){
+  const s = {A:0,B:0,C:0};
+  answers.forEach((pick, i) => {
+    const q = QUESTIONS[i];
+    const sc = q.options[pick].scores;
+    for (const k in s) s[k] += sc[k] * q.weight;
+  });
+  return s;
+}
+
+/* 동점일 때: ① 1번(피부 상태) 문항에서 점수를 받은 타입 우선
+              ② 그래도 같으면 자극이 적은 순서(A → B → C) */
+function decide(s){
+  const max = Math.max(s.A, s.B, s.C);
+  let top = ["A","B","C"].filter(k => s[k] === max);
+  if (top.length === 1) return top[0];
+
+  const first = QUESTIONS[0].options[answers[0]].scores;
+  const bySkin = top.filter(k => first[k] > 0);
+  if (bySkin.length === 1) return bySkin[0];
+
+  return (bySkin.length ? bySkin : top)[0];
+}
+
+const MAX_SCORE = QUESTIONS.reduce((sum, q) => sum + 2 * q.weight, 0); // 12점
+
+function setAccent(color, soft){
+  document.documentElement.style.setProperty("--accent", color);
+  document.documentElement.style.setProperty("--accent-soft", soft);
+}
+
+function setWater(pct){ water.style.height = pct + "%"; }
+
+/* ────────────────────────────────────────────────
+   5. 화면 렌더링
+──────────────────────────────────────────────── */
+function render(){
+  if (step === -1)  return renderIntro();
+  if (step < QUESTIONS.length) return renderQuestion();
+  renderResult();
+}
+
+function renderIntro(){
+  setAccent("var(--brand)", "#d7e9ea");
+  setWater(0);
+  view.innerHTML = `
+    <div class="kicker">수경이가 선택한 아기 바디워시</div>
+    <h1>내 아기에게 맞는<br>바디워시는?</h1>
+    <p class="lede">피부 상태, 목욕 습관, 계절 환경을 함께 보고 세 가지 타입 중 하나를 추천해 드려요. 정답을 고르는 테스트가 아니라, 지금 우리 집 상황에 가장 가까운 쪽을 고르면 됩니다.</p>
+    <div class="row"><button class="btn primary" id="start">테스트 시작하기</button></div>
+    <p class="note" style="margin-top:20px;">5문항 · 약 30초</p>`;
+  document.getElementById("start").onclick = () => { step = 0; render(); };
+}
+
+function renderQuestion(){
+  const q = QUESTIONS[step];
+  const pct = Math.round(step / QUESTIONS.length * 100);
+  setWater(pct);
+
+  view.innerHTML = `
+    ${step > 0 ? '<button class="back" id="back">← 이전 질문</button>' : ""}
+    <div class="meter">
+      <span class="count">${step + 1} / ${QUESTIONS.length}</span>
+      <span class="track"><span class="fill" style="width:${pct}%"></span></span>
+    </div>
+    ${q.hint ? `<div class="eyebrow">${q.hint}</div>` : ""}
+    <h2>${q.q}</h2>
+    <div class="options">
+      ${q.options.map((o, i) => `
+        <button class="opt" data-i="${i}">
+          ${o.label}${o.sub ? `<span class="sub">${o.sub}</span>` : ""}
+        </button>`).join("")}
+    </div>`;
+
+  view.querySelectorAll(".opt").forEach(btn => {
+    btn.onclick = () => {
+      answers[step] = Number(btn.dataset.i);
+      step++;
+      render();
+    };
+  });
+  const back = document.getElementById("back");
+  if (back) back.onclick = () => { step--; render(); };
+}
+
+function renderResult(){
+  const s = tally();
+  const key = decide(s);
+  const r = RESULTS[key];
+
+  setAccent(r.color, r.soft);
+  setWater(100);
+
+  // 이 타입에 2점 이상 기여한 선택지 = 결정적 근거
+  const reasons = answers
+    .map((pick, i) => ({ o: QUESTIONS[i].options[pick], w: QUESTIONS[i].weight, i }))
+    .filter(x => x.o.scores[key] >= 2)
+    .sort((a, b) => (b.o.scores[key] * b.w) - (a.o.scores[key] * a.w))
+    .slice(0, 3)
+    .map(x => x.o.reason);
+
+  const bars = ["A","B","C"].map(k => {
+    const pct = Math.round(s[k] / MAX_SCORE * 100);
+    return `<div class="bar ${k === key ? "win" : ""}">
+      <span class="name">${RESULTS[k].title}</span>
+      <span class="t"><span class="f" style="width:${pct}%;background:${RESULTS[k].color}"></span></span>
+      <span class="n">${pct}%</span>
+    </div>`;
+  }).join("");
+
+  view.innerHTML = `
+    <div class="badge">${r.badge}</div>
+    <h1>${r.title}</h1>
+    <p class="tagline">${r.tagline}</p>
+    <p style="margin:0;font-size:15.5px;">${r.desc}</p>
+
+    <div class="block">
+      <h3>이 결과가 나온 이유</h3>
+      <ul class="reasons">${reasons.map(t => `<li>${t}</li>`).join("")}</ul>
+    </div>
+
+    <div class="block">
+      <h3>구매할 때 확인할 것</h3>
+      <div class="checks">${r.checks.map(c => `<span class="chip">${c}</span>`).join("")}</div>
+    </div>
+
+    <div class="block">
+      <h3>이 타입에 맞는 제품</h3>
+      ${productSection(key)}
+    </div>
+
+    <div class="block">
+      <h3>목욕 팁</h3>
+      <p class="tip">${r.tip}</p>
+    </div>
+
+    <div class="block">
+      <h3>타입별 점수</h3>
+      <div class="bars">${bars}</div>
+    </div>
+
+    <div class="row">
+      <button class="btn primary" id="copy">결과 복사하기</button>
+      <button class="btn ghost" id="again">다시 해보기</button>
+    </div>
+    <div class="toast" id="toast"></div>
+
+    <p class="note">이 테스트는 제품 선택을 돕기 위한 참고용이에요. 발진이나 가려움이 계속되거나 심해지면 소아과·피부과 전문의와 상담해 주세요.</p>`;
+
+  document.getElementById("again").onclick = () => { step = -1; answers = []; render(); };
+  document.getElementById("copy").onclick = () => {
+    const text = `우리 아기 바디워시 테스트 결과: ${r.title}\n${r.tagline}\n체크포인트: ${r.checks.join(" / ")}`;
+    const toast = document.getElementById("toast");
+    navigator.clipboard?.writeText(text)
+      .then(() => toast.textContent = "결과를 복사했어요.")
+      .catch(() => toast.textContent = "복사에 실패했어요. 화면의 내용을 직접 복사해 주세요.");
+  };
+}
+
+render();
+</script>
+</body>
+</html>
